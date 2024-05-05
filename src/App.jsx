@@ -18,6 +18,10 @@ function App() {
         <Checkbox></Checkbox>
           <Checkbox indeterminate={true} ></Checkbox>
         <Checkbox disabled={true} ></Checkbox>
+        <Checkbox variant={'radio'} ></Checkbox>
+        <Checkbox variant={'radio'} disabled={true} ></Checkbox>
+        <Checkbox variant={'checkcircle'}></Checkbox>
+        <Checkbox variant={'checkcircle'} disabled={true} ></Checkbox>
         {/* <Button variant={'primary'}>CTA Button</Button>
         <Button variant={'secondary'}>CTA Button</Button>
         <Button variant={'tertiary'}>CTA Button</Button> */}

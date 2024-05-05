@@ -42,11 +42,6 @@ const Button = ({ children, onClick, className, size, variant, disabled, icon, c
 
     const iconsizeClass = iconsizeClasses[size] || iconsizeClasses['md'];
 
-    const variantClasses = {
-        'secondary': 'shadow-[inset_0_0_0_1px] shadow-brand-300 hover:bg-brand-50 hover:text-brand-800 text-brand-600 focus:ring-4 focus:ring-brand-100 disabled:bg-brand-25 disabled:text-brand-300 disabled:hover:bg-brand-25 disabled:hover:text-brand-300 outline-none',
-        'tertiary': 'hover:bg-brand-50 text-brand-600 hover:text-brand-800 disabled:text-gray-300 disabled:hover:bg-transparent focus:ring-4 focus:ring-brand-100 outline-none',
-    }
-
     const style = {
         'primary': {
             base: {
@@ -102,8 +97,6 @@ const Button = ({ children, onClick, className, size, variant, disabled, icon, c
             }
         }
     }
-
-    const variantClass = variantClasses[variant] || variantClasses['primary'];
 
     return (
         <motion.button

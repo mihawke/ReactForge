@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import Colors from "../../config/colors";
-import { FaCheck, FaMinus } from 'react-icons/fa';
+import { FaCheck, FaCircle, FaMinus } from 'react-icons/fa';
 
-const Checkbox = ({ size, className, disabled, indeterminate, onClick, onChecked, value, id, name }) => {
+const Checkbox = ({ size, className, disabled, variant ,indeterminate, onClick, onChecked, value, id, name }) => {
 
     const [hover, setHover] = useState(false)
     const [focused, setFocused] = useState(false)
@@ -12,8 +12,13 @@ const Checkbox = ({ size, className, disabled, indeterminate, onClick, onChecked
     // const [active, setActive] = useState(false)
 
     const handleClick = () => {
-        if (indeterminate) {
-            setIndeterminate(!isIndeterminate);
+        if(variant === 'checkbox'){
+            if (indeterminate) {
+                setIndeterminate(!isIndeterminate);
+            }
+            else {
+                setChecked(!checked);
+            }   
         }
         else {
             setChecked(!checked);
@@ -35,16 +40,16 @@ const Checkbox = ({ size, className, disabled, indeterminate, onClick, onChecked
     }
 
     const sizeClasses = {
-        'sm': 'w-4 h-4 rounded-[4px] ',
+        'sm': 'w-4 h-4 rounded-[4px]',
         'md': 'w-5 h-5 rounded-[6px]'
     }
 
     const sizeClass = sizeClasses[size] || sizeClasses['md']
 
     const style = {
-        'primary': {
+        'checkbox': {
             base: {
-                boxShadow: `inset 0 0 0 1px ${Colors.brand[300]}`,
+                boxShadow: `inset 0 0 0 1px ${Colors.gray[300]}`,
             },
             checkedBase: {
                 boxShadow: `inset 0 0 0 1px ${Colors.brand[600]}`,
@@ -62,47 +67,105 @@ const Checkbox = ({ size, className, disabled, indeterminate, onClick, onChecked
                 boxShadow: `inset 0 0 0 1px ${Colors.gray[200]}`,
             }
         },
+        'radio': {
+            base: {
+                borderRadius:'100%',
+                boxShadow: `inset 0 0 0 1px ${Colors.gray[300]}`,
+            },
+            checkedBase: {
+                borderRadius:'100%',
+                boxShadow: `inset 0 0 0 1px ${Colors.brand[600]}`,
+            },
+            checkedFocus: {
+                borderRadius:'100%',
+                boxShadow: `inset 0 0 0 1px ${Colors.brand[600]},0 0 0 4px ${Colors.brand[100]}`,
+            },
+            focus: {
+                borderRadius:'100%',
+                boxShadow: `inset 0 0 0 1px ${Colors.brand[300]},0 0 0 4px ${Colors.brand[100]}`,
+            },
+            hover: {
+                borderRadius:'100%',
+                boxShadow: `inset 0 0 0 1px ${Colors.brand[600]}`,
+            },
+            disabled: {
+                borderRadius:'100%',
+                boxShadow: `inset 0 0 0 1px ${Colors.gray[200]}`,
+            }
+        },
+        'checkcircle': {
+            base: {
+                borderRadius:'100%',
+                boxShadow: `inset 0 0 0 1px ${Colors.gray[300]}`,
+            },
+            checkedBase: {
+                borderRadius:'100%',
+                backgroundColor: Colors.brand[600],
+            },
+            checkedFocus: {
+                borderRadius:'100%',
+                boxShadow: `inset 0 0 0 1px ${Colors.brand[600]},0 0 0 4px ${Colors.brand[100]}`,
+            },
+            focus: {
+                borderRadius:'100%',
+                boxShadow: `inset 0 0 0 1px ${Colors.brand[300]},0 0 0 4px ${Colors.brand[100]}`,
+            },
+            hover: {
+                borderRadius:'100%',
+                boxShadow: `inset 0 0 0 1px ${Colors.brand[600]}`,
+            },
+            disabled: {
+                borderRadius:'100%',
+                backgroundColor: Colors.brand[200],
+            }
+        },
     }
 
     const getStyle = () => {
         if (disabled) {
-            return { ...style.primary.disabled }
+            return { ...style[variant].disabled }
         }
         else if (isIndeterminate && focused) {
-            return { ...style.primary.checkedFocus }
+            return { ...style[variant].checkedFocus }
         }
         else if (isIndeterminate && hover) {
-            return { ...style.primary.checkedBase }
+            return { ...style[variant].checkedBase }
         }
         else if (isIndeterminate) {
-            return { ...style.primary.checkedBase }
+            return { ...style[variant].checkedBase }
         }
         else if (checked && focused) {
-            return { ...style.primary.checkedFocus }
+            return { ...style[variant].checkedFocus }
         }
         else if (checked && hover) {
-            return { ...style.primary.checkedBase }
+            return { ...style[variant].checkedBase }
         }
         else if (checked) {
-            return { ...style.primary.checkedBase }
+            return { ...style[variant].checkedBase }
         }
         else if (focused) {
-            return { ...style.primary.focus }
+            return { ...style[variant].focus }
         }
         else if (hover) {
-            return { ...style.primary.hover }
+            return { ...style[variant].hover }
         }
         else {
-            return { ...style.primary.base }
+            return { ...style[variant].base }
         }
     }
 
     const getIcon = () => {
-        if (isIndeterminate) {
+        if (isIndeterminate && variant == 'checkbox') {
             return <FaMinus className='w-3 h-3' style={{ color: disabled ? Colors.gray[200] : Colors.brand[600] }} />;
         }
-        else if (checked) {
+        else if (checked && variant == 'checkbox') {
             return <FaCheck className='w-3 h-3' style={{ color: disabled ? Colors.gray[200] : Colors.brand[600] }} />;
+        }
+        else if (checked && variant == 'checkcircle') {
+            return <FaCheck className='w-3 h-3' style={{ color: '#FFFFFF'}} />;
+        }
+        else if (checked && variant == 'radio') {
+            return <FaCircle className='w-2 h-2' style={{ color: disabled ? Colors.gray[200] : Colors.brand[600] }} />;
         }
     }
 
@@ -117,12 +180,20 @@ const Checkbox = ({ size, className, disabled, indeterminate, onClick, onChecked
             value={value}
             id={id}
             name={name}
-            className={`flex items-center justify-center w-4 h-4 rounded-[4px] outline-none ${sizeClass} ${className}`}
+            className={`flex items-center justify-center outline-none ${sizeClass} ${className}`}
             style={getStyle()}
         >
             {getIcon()}
         </button>
     )
 }
+
+Checkbox.defaultProps = {
+    onClick: () => { },
+    className: '',
+    size: 'md',
+    disabled: false,
+    variant: 'checkbox'  
+};
 
 export default Checkbox
