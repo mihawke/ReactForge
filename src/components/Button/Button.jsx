@@ -112,8 +112,8 @@ const Button = ({ children, onClick, className, size, variant, disabled, icon, c
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             disabled={disabled}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
+            onMouseDown={()=>setFocused(true)}
+            onMouseUp={()=>setFocused(false)}
             style={
                 disabled ? { ...style[variant].base, ...style[variant].disabled }
                     : focused ? hover ? { ...style[variant].base, ...style[variant].focus, ...style[variant].hover }

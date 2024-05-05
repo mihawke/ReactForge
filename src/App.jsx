@@ -1,28 +1,27 @@
 import { useState } from 'react'
 import './App.css'
 import Button from './components/Button/Button'
-import { SiEagle } from 'react-icons/si'
-import { BsSearch } from 'react-icons/bs'
 import InputField from './components/InputField/InputField'
-import { FaRegEnvelope } from 'react-icons/fa6'
+import { Dropdown, ListItem } from './components/Dropdown/Dropdown'; 
+import { FaSearch } from 'react-icons/fa';
+import { FaRegCircle } from 'react-icons/fa6';
+import Checkbox from './components/Checkbox/Checkbox';
 
 function App() {
 
-  const handleClick = () => {
-    alert('Clicked')
-  }
-
-  const [text, setText] = useState('')
-
-  const handleText = (e)=>{
-    setText(e.target.value)
+  const handleClick =()=>{
+    console.log('Clicked')
   }
 
   return (
     <div className='flex h-screen w-screen items-center justify-center gap-2'>
-      <div className='w-[600px]'>
-        <InputField onChange={handleText} helpIcon={true} icon={<FaRegEnvelope className="w-5 h-5"/>} label={'Email'} destructive={true}></InputField>
-      </div>
+        <Checkbox ></Checkbox>
+        <Checkbox></Checkbox>
+        <Checkbox indeterminate={true} ></Checkbox>
+        <Checkbox disabled={true} ></Checkbox>
+        {/* <Button variant={'primary'}>CTA Button</Button>
+        <Button variant={'secondary'}>CTA Button</Button>
+        <Button variant={'tertiary'}>CTA Button</Button> */}
     </div>
   )
 }
