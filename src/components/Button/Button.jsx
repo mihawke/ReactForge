@@ -1,9 +1,26 @@
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
-import { motion } from "framer-motion"
-import { FaRegCircle } from "react-icons/fa";
+import { color, motion } from "framer-motion"
+import Colors from "../../config/colors";
 
-const Button = ({ children, onClick, className, size, variant, disabled, icon, color }) => {
+const Button = ({ children, onClick, className, size, variant, disabled, icon, color  }) => {
+
+    const [hover, setHover] = useState(false)
+    const [focused, setFocused] = useState(false)
+    // const [active, setActive] = useState(false)
+
+
+    const handleMouseEnter = () => {
+        setHover(true)
+    }
+
+    const handleMouseLeave = () => {
+        setHover(false)
+    }
+
+    // const handleClick = () => {
+    //     setActive(!active)
+    // }
 
     const sizeClasses = {
         'sm': 'py-2 px-3.5 text-sm font-semibold gap-x-2',
@@ -26,30 +43,87 @@ const Button = ({ children, onClick, className, size, variant, disabled, icon, c
     const iconsizeClass = iconsizeClasses[size] || iconsizeClasses['md'];
 
     const variantClasses = {
-        'primary': 'bg-brand-600 hover:bg-brand-700 focus:ring-4 focus:ring-brand-100 disabled:bg-brand-200 disabled:hover:bg-brand-200 text-white outline-none',
         'secondary': 'shadow-[inset_0_0_0_1px] shadow-brand-300 hover:bg-brand-50 hover:text-brand-800 text-brand-600 focus:ring-4 focus:ring-brand-100 disabled:bg-brand-25 disabled:text-brand-300 disabled:hover:bg-brand-25 disabled:hover:text-brand-300 outline-none',
         'tertiary': 'hover:bg-brand-50 text-brand-600 hover:text-brand-800 disabled:text-gray-300 disabled:hover:bg-transparent focus:ring-4 focus:ring-brand-100 outline-none',
     }
 
-    const variantClass = variantClasses[variant] || variantClasses['primary']
-
-    const disabledClasses = {
-        'primary': 'focus:ring-4 focus:ring-brand-100 text-white outline-none',
-        'secondary': 'shadow-[inset_0_0_0_1px] shadow-brand-300 hover:bg-brand-50 hover:text-brand-800 text-brand-600 focus:ring-4 focus:ring-brand-100 outline-none',
-        'tertiary': 'hover:bg-brand-50 text-brand-600 focus:ring-4 focus:ring-brand-100 outline-none',
+    const style = {
+        'primary': {
+            base: {
+                backgroundColor: Colors[color][600] || Colors.brand[600],
+                outline: 'none',
+                color: '#FFFFFF'
+            },
+            focus: {
+                boxShadow: `0 0 0 4px ${Colors[color][100]}` ||  `0 0 0 4px ${Colors.brand[100]}`
+            },
+            hover: {
+                backgroundColor: Colors[color][700] || Colors.brand[700],
+            },
+            disabled: {
+                backgroundColor: Colors[color][700] || Colors.brand[200],
+            }
+        },
+        'secondary': {
+            base: {
+                backgroundColor: 'transparent',
+                color: Colors[color][700],
+                boxShadow: `inset 0 0 0 1px ${Colors[color][300]}` || `inset 0 0 0 1px ${Colors.brand[300]}`,
+                outline: 'none'
+            },
+            focus: {
+                boxShadow: `inset 0 0 0 1px ${Colors[color][300]},0 0 0 4px ${Colors[color][100]}` || `inset 0 0 0 1px ${Colors.brand[300]},0 0 0 4px ${Colors.brand[100]}`
+            },
+            hover: {
+                backgroundColor: Colors[color][50] ||  Colors.brand[50],
+                color: Colors[color][800] || Colors.brand[800]
+            },
+            disabled: {
+                backgroundColor: Colors.brand[25],
+                boxShadow: `inset 0 0 0 1px ${Colors[color][200]}` || `inset 0 0 0 1px ${Colors.brand[200]}`,
+                color: Colors.brand[200]
+            }
+        },
+        'tertiary': {
+            base: {
+                backgroundColor: 'transparent',
+                color: Colors[color][700],
+                outline: 'none'
+            },
+            focus: {
+                boxShadow:  `0 0 0 4px ${Colors[color][100]}` || `0 0 0 4px ${Colors.brand[100]}`
+            },
+            hover: {
+                backgroundColor: Colors[color][50] || Colors.brand[50],
+                color:  Colors[color][800] || Colors.brand[800]
+            },
+            disabled: {
+                color: Colors.gray[200]
+            }
+        }
     }
 
-    const disabledClass = disabledClasses[variant] || disabledClasses['primary']
+    const variantClass = variantClasses[variant] || variantClasses['primary'];
 
     return (
         <motion.button
-            className={`flex flex-row items-center rounded-lg ${variantClass} ${icon == 'only' ? iconsizeClass : sizeClass} ${className}`}
-            onClick={onClick}
+            className={`flex flex-row items-center rounded-lg ${icon == 'only' ? iconsizeClass : sizeClass} ${className}`}
+            onClick={()=> {handleClick(), onClick()}}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             disabled={disabled}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            style={
+                disabled ? { ...style[variant].base, ...style[variant].disabled }
+                    : focused ? hover ? { ...style[variant].base, ...style[variant].focus, ...style[variant].hover }
+                        : { ...style[variant].base, ...style[variant].focus } : hover ? { ...style[variant].base, ...style[variant].hover }
+                        : { ...style[variant].base }
+            }
         >
             {children}
         </motion.button>
-    )
+    );
 }
 
 Button.defaultProps = {
@@ -58,7 +132,8 @@ Button.defaultProps = {
     size: 'md',
     icon: '',
     disabled: false,
-    variant: 'primary'
+    variant: 'primary',
+    color: 'brand'
 };
 
 Button.propTypes = {
