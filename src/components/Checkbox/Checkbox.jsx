@@ -1,8 +1,8 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import Colors from "../../config/colors";
 import { FaCheck, FaMinus } from 'react-icons/fa';
 
-const Checkbox = ({ size, className ,disabled, indeterminate , onClick , onChecked , value ,id ,name}) => {
+const Checkbox = ({ size, className, disabled, indeterminate, onClick, onChecked, value, id, name }) => {
 
     const [hover, setHover] = useState(false)
     const [focused, setFocused] = useState(false)
@@ -11,15 +11,17 @@ const Checkbox = ({ size, className ,disabled, indeterminate , onClick , onCheck
 
     // const [active, setActive] = useState(false)
 
-    const handleClick=()=>{
-        if(indeterminate){
+    const handleClick = () => {
+        if (indeterminate) {
             setIndeterminate(!isIndeterminate);
         }
-        setChecked(!checked);
+        else {
+            setChecked(!checked);
+        }
         if (onClick) {
             onClick();
         }
-        if(onChecked && checked){
+        if (onChecked && checked) {
             onChecked();
         }
     }
@@ -62,36 +64,45 @@ const Checkbox = ({ size, className ,disabled, indeterminate , onClick , onCheck
         },
     }
 
-    const getStyle=()=>{
-        if(disabled){
-            return {...style.primary.disabled}
+    const getStyle = () => {
+        if (disabled) {
+            return { ...style.primary.disabled }
         }
-        else if(checked && focused ){
-            return {...style.primary.checkedFocus}
+        else if (isIndeterminate && focused) {
+            return { ...style.primary.checkedFocus }
         }
-        else if(checked && hover){
-            return {...style.primary.checkedBase}
+        else if (isIndeterminate && hover) {
+            return { ...style.primary.checkedBase }
         }
-        else if(checked){
-            return {...style.primary.checkedBase}
+        else if (isIndeterminate) {
+            return { ...style.primary.checkedBase }
         }
-        else if(focused){
-            return {...style.primary.focus}
+        else if (checked && focused) {
+            return { ...style.primary.checkedFocus }
         }
-        else if(hover){
-            return {...style.primary.hover}
+        else if (checked && hover) {
+            return { ...style.primary.checkedBase }
         }
-        else{
-            return {...style.primary.base}
+        else if (checked) {
+            return { ...style.primary.checkedBase }
+        }
+        else if (focused) {
+            return { ...style.primary.focus }
+        }
+        else if (hover) {
+            return { ...style.primary.hover }
+        }
+        else {
+            return { ...style.primary.base }
         }
     }
 
-    const getIcon=()=>{
-        if(isIndeterminate){
-            return <FaMinus className='w-3 h-3' style={{color: disabled ? Colors.gray[200] : Colors.brand[600]}}/>;
+    const getIcon = () => {
+        if (isIndeterminate) {
+            return <FaMinus className='w-3 h-3' style={{ color: disabled ? Colors.gray[200] : Colors.brand[600] }} />;
         }
-        else if(checked){
-            return <FaCheck className='w-3 h-3' style={{color: disabled ? Colors.gray[200] : Colors.brand[600]}}/>;
+        else if (checked) {
+            return <FaCheck className='w-3 h-3' style={{ color: disabled ? Colors.gray[200] : Colors.brand[600] }} />;
         }
     }
 
@@ -101,8 +112,8 @@ const Checkbox = ({ size, className ,disabled, indeterminate , onClick , onCheck
             onMouseLeave={handleMouseLeave}
             disabled={disabled}
             onClick={handleClick}
-            onMouseDown={()=>setFocused(true)}
-            onMouseUp={()=>setFocused(false)}
+            onMouseDown={() => setFocused(true)}
+            onMouseUp={() => setFocused(false)}
             value={value}
             id={id}
             name={name}

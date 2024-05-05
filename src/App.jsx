@@ -15,9 +15,8 @@ function App() {
 
   return (
     <div className='flex h-screen w-screen items-center justify-center gap-2'>
-        <Checkbox ></Checkbox>
         <Checkbox></Checkbox>
-        <Checkbox indeterminate={true} ></Checkbox>
+          <Checkbox indeterminate={true} ></Checkbox>
         <Checkbox disabled={true} ></Checkbox>
         {/* <Button variant={'primary'}>CTA Button</Button>
         <Button variant={'secondary'}>CTA Button</Button>
